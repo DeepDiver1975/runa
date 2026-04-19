@@ -1,0 +1,9 @@
+[package]
+name = "runa"
+version = "0.1.0"
+edition = "2021"
+description = "Keyboard-first plan execution TUI (scaffold)"
+license = "MIT"
+
+[dependencies]
+# Add runtime dependencies as needed

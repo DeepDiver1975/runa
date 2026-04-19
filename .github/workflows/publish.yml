@@ -1,0 +1,31 @@
+name: Publish draft release
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag name of the release to publish'
+        required: true
+        default: ''
+
+jobs:
+  publish:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish draft release
+        id: publish_release
+        uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          release_name: ${{ github.event.inputs.tag }}
+          draft: false
+          body: "Published via manual workflow_dispatch."
+
+      - name: Upload assets (if needed)
+        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1.0.2
+        with:
+          upload_url: ${{ steps.publish_release.outputs.upload_url }}
+          asset_path: dist/sha256sums.txt
+          asset_name: sha256sums.txt
+          asset_content_type: text/plain

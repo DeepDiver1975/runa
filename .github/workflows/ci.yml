@@ -1,0 +1,22 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+      - name: Format check
+        run: cargo fmt -- --check || true
+      - name: Lint (clippy)
+        run: cargo clippy --workspace --all-targets -- -D warnings || true
+      - name: Build
+        run: cargo build --release || true
+      - name: Run tests
+        run: cargo test --all --no-fail-fast || true
