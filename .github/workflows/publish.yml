@@ -1,5 +1,0 @@
-name: Publish draft release (disabled)
-on: []
-
-# publish workflow removed per user request
-# This file is retained but disabled to preserve history. Delete if desired.
