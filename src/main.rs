@@ -1,8 +1,8 @@
 mod app;
 mod core;
-mod ui;
-mod terminal;
 mod plan;
+mod terminal;
+mod ui;
 mod util;
 
 fn main() {
