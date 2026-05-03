@@ -20,6 +20,16 @@ pub struct AppState {
 
 impl AppState {
     pub fn new() -> Self { Self { steps: Vec::new(), active_step: 0 } }
+    
+    pub fn next_step(&mut self) {
+        if self.steps.is_empty() { return }
+        self.active_step = (self.active_step + 1) % self.steps.len();
+    }
+    
+    pub fn prev_step(&mut self) {
+        if self.steps.is_empty() { return }
+        if self.active_step == 0 { self.active_step = self.steps.len()-1 } else { self.active_step -= 1 }
+    }
 }
 
 impl Step {
