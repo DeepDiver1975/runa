@@ -3,3 +3,4 @@ pub mod plan;
 pub mod app;
 pub mod filetree;
 pub mod ui;
+pub mod terminal;
