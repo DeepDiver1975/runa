@@ -1,5 +1,5 @@
-//! core module (scaffold)
+pub mod executor;
+pub mod workspace;
 
-pub fn init() {
-    println!("init: core");
-}
+pub use executor::*;
+pub use workspace::*;

@@ -1,5 +1,2 @@
-//! plan module (scaffold)
-
-pub fn init() {
-    println!("init: plan");
-}
+pub mod parser;
+pub use parser::*;
