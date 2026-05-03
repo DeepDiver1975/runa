@@ -11,7 +11,6 @@ fn main() {
     app::init();
     core::init();
     ui::init();
-    terminal::init();
     plan::init();
     util::init();
 }
