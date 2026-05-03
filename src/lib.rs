@@ -1,7 +1,6 @@
-pub mod core;
+pub mod state;
 pub mod plan;
+pub mod app;
+pub mod filetree;
+pub mod ui;
 pub mod terminal;
-
-pub use core::*;
-pub use plan::*;
-pub use terminal::*;

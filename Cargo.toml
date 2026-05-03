@@ -6,9 +6,9 @@ description = "Keyboard-first plan execution TUI (scaffold)"
 license = "MIT"
 
 [dependencies]
+# Add runtime dependencies as needed
+uuid = { version = "1", features = ["v4"] }
 pulldown-cmark = "0.9"
-thiserror = "1.0"
-
-[dev-dependencies]
-assert_cmd = "2.0"
-predicates = "3.0"
+async-trait = "0.1"
+anyhow = "1"
+tokio = { version = "1", features = ["full"] }
