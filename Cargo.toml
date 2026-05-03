@@ -7,3 +7,4 @@ license = "MIT"
 
 [dependencies]
 # Add runtime dependencies as needed
+uuid = { version = "1", features = ["v4"] }

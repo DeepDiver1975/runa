@@ -1,17 +1,6 @@
 mod app;
-mod core;
-mod plan;
-mod terminal;
-mod ui;
-mod util;
+mod state;
 
 fn main() {
-    println!("Runa scaffold initialized.");
-    // Call module inits to avoid dead-code warnings in early development
-    app::init();
-    core::init();
-    ui::init();
-    terminal::init();
-    plan::init();
-    util::init();
+    println!("Runa - iced scaffold (no UI) - run tests");
 }
