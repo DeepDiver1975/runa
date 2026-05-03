@@ -7,3 +7,7 @@ impl Workspace {
         Workspace {}
     }
 }
+
+impl Default for Workspace {
+    fn default() -> Self { Self::new() }
+}
