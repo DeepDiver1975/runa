@@ -102,9 +102,27 @@ pub enum Message {
 
 ## Terminal backend notes
 
-- Use a PTY library (portable-pty or tokio-pty-process) to spawn shells/commands
-- Run PTY readers on Tokio tasks; send output back via iced::Command messages
-- Provide a mockable TerminalBackend trait for tests
+- Use the portable-pty crate as the primary PTY implementation (recommended) for cross-platform PTY support. Provide a small adapter to make it tokio-friendly where necessary.
+- Run PTY readers on Tokio tasks; forward output via iced::Command::perform to produce TerminalOutput messages handled by the MVU update loop.
+- Expose an async TerminalBackend trait with spawn, write, resize, and kill operations. Provide a MockTerminalBackend for unit and integration tests so UI logic can be verified without real processes.
+- Keep PTY handling isolated behind the trait so UI code and tests remain decoupled from OS PTY behavior.
+
+## Types & aliases (clarifications)
+
+- type SessionId = uuid::Uuid;
+- type ExitStatus = std::process::ExitStatus;
+
+pub struct CommandInfo { pub cmd: String, pub start_time: std::time::Instant }
+
+pub struct Link { pub range: (usize, usize), pub url: String }
+
+pub struct FileNode { pub path: PathBuf, pub kind: FileKind, pub children_count: usize }
+
+pub enum FileKind { File, Dir }
+
+pub struct Shortcuts { pub run: Option<String>, pub skip: Option<String> }
+
+These types are referenced above and help remove ambiguity.
 
 ## Testing
 
