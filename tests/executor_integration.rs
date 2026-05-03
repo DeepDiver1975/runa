@@ -1,5 +1,5 @@
-use runa::plan::parser::parse_plan;
 use runa::core::executor::Executor;
+use runa::plan::parser::parse_plan;
 
 #[test]
 fn executor_runs_step_and_marks_done() {

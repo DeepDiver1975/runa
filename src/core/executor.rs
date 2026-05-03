@@ -1,5 +1,5 @@
-use crate::terminal::Terminal;
 use crate::plan::parser::Step as PlanStep;
+use crate::terminal::{CommandOutput, Terminal};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum StepStatus {
@@ -26,12 +26,20 @@ impl Executor {
     }
 
     pub fn run(&mut self, step: &PlanStep) -> Result<ExecResult, std::io::Error> {
-        let output = self.term.run_command(step.code.as_str())?;
-        let status = if output.contains("ERR:") {
-            StepStatus::Error
+        let out: CommandOutput = self.term.run_command(step.code.as_str())?;
+        let merged = if !out.stderr.is_empty() {
+            format!("{}\nERR:\n{}", out.stdout, out.stderr)
         } else {
-            StepStatus::Done
+            out.stdout.clone()
         };
-        Ok(ExecResult { status, output })
+        let status = if out.status.success() {
+            StepStatus::Done
+        } else {
+            StepStatus::Error
+        };
+        Ok(ExecResult {
+            status,
+            output: merged,
+        })
     }
 }

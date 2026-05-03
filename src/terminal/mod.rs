@@ -1,5 +1,11 @@
-use std::process::{Command, Stdio};
-use std::io::Read;
+use std::process::{Command, ExitStatus};
+
+#[derive(Debug, Clone)]
+pub struct CommandOutput {
+    pub status: ExitStatus,
+    pub stdout: String,
+    pub stderr: String,
+}
 
 pub struct Terminal {}
 
@@ -8,37 +14,21 @@ impl Terminal {
         Ok(Terminal {})
     }
 
-    pub fn run_command(&mut self, cmd: &str) -> Result<String, std::io::Error> {
-        // Run through shell for simplicity
-        let mut child = if cfg!(target_os = "windows") {
-            Command::new("cmd")
-                .args(["/C", cmd])
-                .stdout(Stdio::piped())
-                .stderr(Stdio::piped())
-                .spawn()?
+    /// Runs a command through the system shell and returns exit status, stdout and stderr separately.
+    pub fn run_command(&mut self, cmd: &str) -> Result<CommandOutput, std::io::Error> {
+        let output = if cfg!(target_os = "windows") {
+            Command::new("cmd").args(["/C", cmd]).output()?
         } else {
-            Command::new("sh")
-                .args(["-c", cmd])
-                .stdout(Stdio::piped())
-                .stderr(Stdio::piped())
-                .spawn()?
+            Command::new("sh").args(["-c", cmd]).output()?
         };
 
-        let mut out = String::new();
-        if let Some(mut stdout) = child.stdout.take() {
-            let mut buf = String::new();
-            stdout.read_to_string(&mut buf)?;
-            out.push_str(&buf);
-        }
-        if let Some(mut stderr) = child.stderr.take() {
-            let mut buf = String::new();
-            stderr.read_to_string(&mut buf)?;
-            if !buf.is_empty() {
-                out.push_str("\nERR:\n");
-                out.push_str(&buf);
-            }
-        }
-        let _ = child.wait();
-        Ok(out)
+        let stdout = String::from_utf8_lossy(&output.stdout).into_owned();
+        let stderr = String::from_utf8_lossy(&output.stderr).into_owned();
+
+        Ok(CommandOutput {
+            status: output.status,
+            stdout,
+            stderr,
+        })
     }
 }

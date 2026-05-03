@@ -1,8 +1,9 @@
-// Minimal Workspace struct for future expansion
-pub struct Workspace {}
+pub struct Workspace {
+    // placeholder for future fields
+}
 
 impl Workspace {
-    pub fn new() -> Result<Self, std::io::Error> {
-        Ok(Workspace {})
+    pub fn new() -> Self {
+        Workspace {}
     }
 }
