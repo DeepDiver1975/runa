@@ -10,5 +10,5 @@ pulldown-cmark = "0.9"
 thiserror = "1.0"
 
 [dev-dependencies]
-assert_cmd = "2.0"
+assert_cmd = "2.2"
 predicates = "3.0"
