@@ -531,4 +531,35 @@ Implement in order:
 
 Build fast. Keep it minimal. Stay focused.
 
+# 🛠️ Development Workflow
+
+## Build & Test Commands
+
+- Build (debug): `cargo build`
+- Build (release): `cargo build --release`
+- Run: `cargo run`
+- Test full suite: `cargo test`
+- Run a single test by name: `cargo test <test_name> -- --nocapture`
+  - For exact name matching: `cargo test '^test_name$' -- --nocapture`
+- Run a single integration test file: `cargo test --test my_integration_test`
+- Run with all features: `cargo test --all-features`
+- Lint (Clippy): `cargo clippy -- -D warnings`
+- Format check: `cargo fmt -- --check`
+
+## Contributor Guidelines
+
+- **Where to look first**: CLAUDE.md (this file) for architecture and design decisions; repo root for `Cargo.toml` and `src/`; any existing CI files (`.github/workflows/`)
+- **Preserve patterns**: Maintain the single-source-of-truth `AppState` pattern when suggesting changes
+- **Verify integrations**: For changes touching execution or terminal code, manually verify PTY and ANSI handling
+- **Update documentation**: When adding features that affect plans or steps, update CLAUDE.md to keep design and expectations aligned
+- **GitHub Actions**: When configuring workflows, always pin action references to an explicit commit SHA and append the release/tag as a trailing comment (e.g., `uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2`)
+
+## Recommended CI Workflow
+
+A basic GitHub Actions workflow for Rust projects can be found in `.github/workflows/ci.yml` (if implemented), which typically includes:
+- Format checking (`cargo fmt -- --check`)
+- Linting (`cargo clippy --workspace --all-targets -- -D warnings`)
+- Release build (`cargo build --release`)
+- Test execution (`cargo test --all --no-fail-fast`)
+
 ---
